@@ -3,24 +3,24 @@
 
 class Heap {
 private:
-	struct Node {
+	struct Node {	// Reprezentuje element w kopcu, zawiera wartość i priorytet
 		int value;
 		int priority;
 	};
 
-	std::vector<Node> heap;
+	std::vector<Node> heap;	// Wektor przechowujący elementy kopca
 
-	int parent(int index) const { return (index - 1) / 2; }
-	int leftChild(int index) const { return 2 * index + 1; }
-	int rightChild(int index) const { return 2 * index + 2; }
+	int parent(int index) const { return (index - 1) / 2; }		// Zwraca indeks rodzica dla danego indeksu
+	int leftChild(int index) const { return 2 * index + 1; }	// Zwraca indeks lewego dziecka dla danego indeksu
+	int rightChild(int index) const { return 2 * index + 2; }	// Zwraca indeks prawego dziecka dla danego indeksu
 
-	void heapifyUp(int index);
-	void heapifyDown(int index);
+	void heapifyUp(int index);	// Przesuwa element w górę kopca, aby zachować właściwość kopca
+	void heapifyDown(int index);	// Przesuwa element w dół kopca, aby zachować właściwość kopca
 
 public:
-	void insert(int value, int priority);
-	void extract_max();
-	void peek() const;
-	void modify_priority(int value, int new_priority);
-	void return_size() const;
+	void insert(const int value, int priority);	// Wstawia nowy element do kopca
+	int extract_max();	// Usuwa element o najwyższym priorytecie z kopca
+	const int& peek() const;	// Zwraca element o najwyższym priorytecie bez usuwania go z kopca
+	void modify_priority(int value, int new_priority);	// Zmienia priorytet elementu w kopcu
+	int return_size() const;	// Zwraca rozmiar kopca
 };

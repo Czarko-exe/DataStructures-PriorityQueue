@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="DataStructures-PriorityQueue.vcxproj" />
+  <Project Path="DataStructures-PriorityQueue.vcxproj" Id="bbbf3832-30aa-4939-9529-490334fef295" />
 </Solution>
