@@ -19,8 +19,9 @@ private:
 	bool isLess(const Node& a, const Node& b);	// Porównuje dwa elementy na podstawie priorytetu i identyfikatora wstawienia
 	void heapifyUp(int index);	// Przesuwa element w górę kopca, aby zachować właściwość kopca
 	void heapifyDown(int index);	// Przesuwa element w dół kopca, aby zachować właściwość kopca
-
 public:
+	void printHeap() const;	// Pomocnicza funkcja do debugowania, wyświetla zawartość kopca
+
 	void insert(const int value, int priority);	// Wstawia nowy element do kopca
 	int extract_max();	// Usuwa element o najwyższym priorytecie z kopca
 	const int& peek() const;	// Zwraca element o najwyższym priorytecie bez usuwania go z kopca

@@ -5,7 +5,7 @@ bool Heap::isLess(const Node& a, const Node& b) {	// Porównuje dwa elementy na 
 	if (a.priority != b.priority) {
 		return a.priority < b.priority;	// Porównuje priorytety
 	}
-	return a.insertion_id < b.insertion_id;	// Jeśli priorytety są równe, porównuje identyfikatory wstawienia
+	return a.insertion_id > b.insertion_id;	// Jeśli priorytety są równe, porównuje identyfikatory wstawienia
 }
 
 void Heap::heapifyUp(int i) {	// Przesuwa element w górę kopca, aby zachować właściwość kopca
@@ -28,6 +28,13 @@ void Heap::heapifyDown(int i) {	// Przesuwa element w dół kopca, aby zachować
 	if (largest != i) {
 		std::swap(heap[i], heap[largest]);	// Zamienia miejscami element z największym priorytetem
 		heapifyDown(largest);	// Rekurencyjnie wywołuje heapifyDown dla nowego indeksu
+	}
+}
+
+void Heap::printHeap() const {	// Pomocnicza funkcja do debugowania, wyświetla zawartość kopca
+	std::cout << "Heap contents:\n";
+	for (const auto& node : heap) {
+		std::cout << "Value: " << node.value << ", Priority: " << node.priority << ", Insertion ID: " << node.insertion_id << "\n";
 	}
 }
 
