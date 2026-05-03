@@ -1,8 +1,15 @@
 #include "Heap.hpp"
 #include <iostream>
 
+bool Heap::isLess(const Node& a, const Node& b) {	// Porównuje dwa elementy na podstawie priorytetu i identyfikatora wstawienia
+	if (a.priority != b.priority) {
+		return a.priority < b.priority;	// Porównuje priorytety
+	}
+	return a.insertion_id < b.insertion_id;	// Jeśli priorytety są równe, porównuje identyfikatory wstawienia
+}
+
 void Heap::heapifyUp(int i) {	// Przesuwa element w górę kopca, aby zachować właściwość kopca
-	while (i > 0 && heap[parent(i)].priority < heap[i].priority) {	// Porównuje priorytet elementu z jego rodzicem
+	while (i > 0 && isLess(heap[parent(i)], heap[i])) {	// Dopóki element nie jest korzeniem i jego priorytet jest większy niż priorytet rodzica
 		std::swap(heap[i], heap[parent(i)]);	// Jeśli priorytet jest większy, zamienia je miejscami
 		i = parent(i);	// Przechodzi do indeksu rodzica
 	}
@@ -12,10 +19,10 @@ void Heap::heapifyDown(int i) {	// Przesuwa element w dół kopca, aby zachować
 	int largest = i;
 	int left = leftChild(i);
 	int right = rightChild(i);
-	if (left < heap.size() && heap[left].priority > heap[largest].priority) {
+	if (left < heap.size() && isLess(heap[largest], heap[left])) {
 		largest = left;	// Jeśli lewe dziecko ma większy priorytet, aktualizuje największy indeks
 	}
-	if (right < heap.size() && heap[right].priority > heap[largest].priority) {
+	if (right < heap.size() && isLess(heap[largest], heap[right])) {
 		largest = right;	// Jeśli prawe dziecko ma większy priorytet, aktualizuje największy indeks
 	}
 	if (largest != i) {
@@ -25,7 +32,7 @@ void Heap::heapifyDown(int i) {	// Przesuwa element w dół kopca, aby zachować
 }
 
 void Heap::insert(const int value, int priority) {	// Wstawia nowy element do kopca
-	heap.push_back({ value, priority });	// Dodaje nowy element na koniec wektora
+	heap.push_back({ value, priority, counter++ });	//	Dodaje nowy element do końca wektora, przypisując mu wartość, priorytet i unikalny identyfikator wstawienia
 	heapifyUp(heap.size() - 1);	// Przesuwa nowy element w górę, aby zachować właściwość kopca
 }
 
@@ -49,4 +56,10 @@ const int& Heap::peek() const {
 		throw std::runtime_error("Heap is empty");	// Rzuca wyjątek, jeśli kopiec jest pusty
 	}
 	return heap[0].value;	// Zwraca wartość elementu o najwyższym priorytecie (korzenia) bez usuwania go z kopca
+}
+
+//modify_key
+
+int Heap::return_size() const {
+	return heap.size();	// Zwraca rozmiar kopca
 }
