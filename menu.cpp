@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "menu.hpp"
-//#include "Tester.hpp"
+#include "Tester.hpp"
 
 int menu() {
 	bool running = true;	// Flaga kontrolująca działanie menu
@@ -175,7 +175,7 @@ int menu() {
 						for (const auto& s : structures) {
 							for (const auto& a : amounts) {
 								for (const auto& f : functions) {
-									//test_structure(s, a, f);	// Testujemy każdą strukturę danych z każdą ilością danych i każdą funkcją
+									test_structure(s, a, f);	// Testujemy każdą strukturę danych z każdą ilością danych i każdą funkcją
 								}
 							}
 						}
@@ -183,7 +183,7 @@ int menu() {
 					else {
 						for (const auto& s : structures) {
 							for (const auto& a : amounts) {
-								//test_structure(s, a, function);	// Testujemy każdą strukturę danych z każdą ilością danych i wybraną funkcją
+								test_structure(s, a, function);	// Testujemy każdą strukturę danych z każdą ilością danych i wybraną funkcją
 							}
 						}
 					}
@@ -191,13 +191,13 @@ int menu() {
 				else if (function == "All") {
 					for (const auto& s : structures) {
 						for (const auto& f : functions) {
-							//test_structure(s, amount, f);	// Testujemy każdą strukturę danych z wybraną ilością danych i każdą funkcją
+							test_structure(s, amount, f);	// Testujemy każdą strukturę danych z wybraną ilością danych i każdą funkcją
 						}
 					}
 				}
 				else {
 					for (const auto& s : structures) {
-						//test_structure(s, amount, function);	// Testujemy każdą strukturę danych z wybraną ilością danych i wybraną funkcją
+						test_structure(s, amount, function);	// Testujemy każdą strukturę danych z wybraną ilością danych i wybraną funkcją
 					}
 				}
 			}
@@ -205,23 +205,23 @@ int menu() {
 				if (function == "All") {
 					for (const auto& a : amounts) {
 						for (const auto& f : functions) {
-							//test_structure(structure, a, f);	// Testujemy wybraną strukturę danych z każdą ilością danych i każdą funkcją
+							test_structure(structure, a, f);	// Testujemy wybraną strukturę danych z każdą ilością danych i każdą funkcją
 						}
 					}
 				}
 				else {
 					for (const auto& a : amounts) {
-						//test_structure(structure, a, function);	// Testujemy wybraną strukturę danych z każdą ilością danych i wybraną funkcją
+						test_structure(structure, a, function);	// Testujemy wybraną strukturę danych z każdą ilością danych i wybraną funkcją
 					}
 				}
 			}
 			else if (function == "All") {
 				for (const auto& f : functions) {
-					//test_structure(structure, amount, f);	// Testujemy wybraną strukturę danych z wybraną ilością danych i każdą funkcją
+					test_structure(structure, amount, f);	// Testujemy wybraną strukturę danych z wybraną ilością danych i każdą funkcją
 				}
 			}
 			else {
-				//test_structure(structure, amount, function);	// Testujemy wybraną strukturę danych z wybraną ilością danych i wybraną funkcją
+				test_structure(structure, amount, function);	// Testujemy wybraną strukturę danych z wybraną ilością danych i wybraną funkcją
 			}
 		}
 
