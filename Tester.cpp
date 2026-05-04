@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 std::vector<int> generate_data(int N, int seed) {
 	std::vector<int> data;
 	std::mt19937 rng(seed);
-	int limit = 2 * N;	// Ustawiamy limit na 2 razy większy niż ilość danych, aby zwiększyć różnorodność losowanych liczb
+	int limit = 3 * N;	// Ustawiamy limit na 3 razy większy niż ilość danych, aby zwiększyć różnorodność losowanych liczb
 	std::uniform_int_distribution<int> dist(1, limit);	// Zakres losowanych liczb
 
 	for (int i = 0; i < N; ++i) {
@@ -52,7 +52,32 @@ void test_structure(std::string structure, int N, std::string operation) {
 		std::vector<int> data = generate_data(N, seed);	// Generujemy dane na podstawie ziarna
 		long long times[10] = {};
 
-		//tester elo
+		for (int i = 0; i < 10; ++i) {
+			if (structure == "Heap") {
+				Heap h;
+				for (int d_idx = 0; d_idx < data.size(); ++d_idx) h.insert(d_idx + 1, data[d_idx]);	// Wstawiamy dane do kopca, gdzie wartość to indeks + 1 (unikalna dla każdego elementu), a priorytet to losowa liczba z danych
+				long long t = measure_time([&]() {
+					if (operation == "insert") h.insert(N+1, 10);
+					else if (operation == "extract-max") h.extract_max();
+					else if (operation == "peek") h.peek();
+					else if (operation == "modify-key") h.modify_key(N,500);
+					else if (operation == "return-size") h.return_size();
+					});
+				times[i] = t;	// Zapisujemy zmierzony czas do tablicy
+			}
+			else if (structure == "SortedDLL") {
+				SortedDLL dll;
+				for (int d_idx = 0; d_idx < data.size(); ++d_idx) dll.insertSDLL(d_idx + 1, data[d_idx]);	// Analogicznie wstawiamy dane do posortowanej listy dwukierunkowej
+				long long t = measure_time([&]() {
+					if (operation == "insert") dll.insertSDLL(N+1, 10);
+					else if (operation == "extract-max") dll.extractMax();
+					else if (operation == "peek") dll.findMax();
+					else if (operation == "modify-key") dll.modifyKey(N,500);
+					else if (operation == "return-size") dll.getSize();
+					});
+				times[i] = t;
+			}
+		}
 
 
 		out << structure << ";" << operation << ";" << N << ";" << seed;	// Zapisujemy wyniki do pliku CSV

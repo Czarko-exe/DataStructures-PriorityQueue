@@ -29,7 +29,7 @@ int menu() {
 			structure = "Heap";
 			break;
 		case 3:
-			structure = "Doubly_Linked_List";
+			structure = "SortedDLL";
 			break;
 		case 0:
 			running = false;
@@ -145,7 +145,7 @@ int menu() {
 		}
 		std::string structures[] = { // Lista dostępnych struktur danych
 			"Heap",
-			"Doubly_Linked_List"
+			"SortedDLL"
 		};
 
 		int amounts[] = { // Lista dostępnych ilości danych do testowania
