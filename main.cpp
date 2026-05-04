@@ -3,14 +3,16 @@
 
 int main()
 {
-	Heap kolejka;
-	kolejka.insert(10, 1);
-	kolejka.insert(20, 2);
-	kolejka.insert(15, 1);
-	kolejka.insert(30, 3);
-	kolejka.insert(25, 2);
-	std::cout << "Peek: " << kolejka.peek() << std::endl;
-	for (int i = 0; i < 5; ++i) {
-		std::cout << "Extracted max: " << kolejka.extract_max() << std::endl;
-	}
+	Heap h;
+	h.insert(10, 1); // ID 0
+	h.insert(20, 1); // ID 1
+	h.insert(30, 1); // ID 2
+
+	h.modify_key(30, 1); // priorytet taki sam — kolejność nie powinna się zmienić
+
+	std::cout << h.extract_max() << "\n"; // 10
+	std::cout << h.extract_max() << "\n"; // 20
+	std::cout << h.extract_max() << "\n"; // 30
+
+
 }

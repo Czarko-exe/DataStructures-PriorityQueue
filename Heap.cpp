@@ -65,7 +65,31 @@ const int& Heap::peek() const {
 	return heap[0].value;	// Zwraca wartość elementu o najwyższym priorytecie (korzenia) bez usuwania go z kopca
 }
 
-//modify_key
+void Heap::modify_key(int value, int newPriority) {	// Zmienia priorytet elementu w kopcu
+	int index = -1;
+	for (int i = 0; i < heap.size(); i++) {
+		if (heap[i].value == value) {	// Szuka elementu o podanej wartości
+			index = i;
+			break;
+		}
+	}
+
+	if (index == -1) {
+		throw std::runtime_error("modify_key: element not found");	// Rzuca wyjątek, jeśli element o podanej wartości nie został znaleziony
+	}
+
+	int oldPriority = heap[index].priority;	// Zapisuje stary priorytet elementu
+
+	heap[index].priority = newPriority;
+
+	if (newPriority > oldPriority) {
+		heapifyUp(index);	// Jeśli nowy priorytet jest większy, przesuwa element w górę, aby zachować właściwość kopca
+	}
+	else if (newPriority < oldPriority) {
+		heapifyDown(index);	// Jeśli nowy priorytet jest mniejszy, przesuwa element w dół, aby zachować właściwość kopca
+	}
+}
+
 
 int Heap::return_size() const {
 	return heap.size();	// Zwraca rozmiar kopca

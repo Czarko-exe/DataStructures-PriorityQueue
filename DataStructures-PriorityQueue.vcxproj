@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="Heap.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SortedDll.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Heap.hpp" />
+    <ClInclude Include="SortedDll.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
