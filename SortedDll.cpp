@@ -22,6 +22,17 @@ SortedDLL::~SortedDLL() {   //destruktor
     size = 0;
 }
 
+SortedDLL::SortedDLL(const SortedDLL& other) {
+    head = tail = nullptr;
+    size = 0;
+
+    DLLNode* cur = other.head;
+    while (cur != nullptr) {
+        insertSDLL(cur->value, cur->priority);
+        cur = cur->next;
+    }
+}
+
 void SortedDLL::insertSDLL(int value, int priority) {
     DLLNode* newNode = new DLLNode(value, priority);    //tworzymy nowy węzeł
 

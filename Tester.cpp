@@ -51,38 +51,43 @@ void test_structure(std::string structure, int N, std::string operation) {
 		int seed = seeds[s_idx];
 		std::vector<int> data = generate_data(N, seed);	// Generujemy dane na podstawie ziarna
 		long long times[10] = {};
-		std::vector<int> insert_prio = generate_data(10, 9676);	// Generujemy 10 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
-		std::vector<int> modify_prio = generate_data(10, 2167);	// Generujemy 10 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
-		for (int i = 0; i < 10; ++i) {
-			std::cout << "Testing " << structure << " with operation " << operation << " for N = " << N << " and seed = " << seed << " (Test " << i+1 << "/10)" << std::endl;
-			if (structure == "Heap") {
-				Heap h;
-				for (int d_idx = 0; d_idx < data.size(); ++d_idx) h.insert(d_idx + 1, data[d_idx]);	// Wstawiamy dane do kopca, gdzie wartość to indeks + 1 (unikalna dla każdego elementu), a priorytet to losowa liczba z danych
+		std::vector<int> insert_prio = generate_data(N, 9676);	// Generujemy 10 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
+		std::vector<int> modify_value = generate_data(N / 3, 3245);	// Generujemy N/3 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
+		std::vector<int> modify_prio = generate_data(N, 2167);	// Generujemy 10 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
+		if (structure == "Heap") {
+			Heap baseHeap;	// Tworzymy bazowy kopiec, do którego wstawiamy dane, aby mieć je gotowe do testowania operacji na kopcu
+			for (int d_idx = 0; d_idx < data.size(); ++d_idx) baseHeap.insert(d_idx + 1, data[d_idx]);
+			for (int i = 0; i < 10; ++i) {
+				std::cout << "Testing " << structure << " with operation " << operation << " for N = " << N << " and seed = " << seed << " (Test " << i + 1 << "/10)" << std::endl;
+				Heap h = baseHeap;
 				long long t = measure_time([&]() {
 					if (operation == "insert") h.insert(N+1, insert_prio[i]);
 					else if (operation == "extract-max") h.extract_max();
 					else if (operation == "peek") h.peek();
-					else if (operation == "modify-key") h.modify_key(N, modify_prio[i]);
+					else if (operation == "modify-key") h.modify_key(modify_value[i], modify_prio[i]);
 					else if (operation == "return-size") h.return_size();
 					});
 				times[i] = t;	// Zapisujemy zmierzony czas do tablicy
+				std::cout << "Time: " << times[i] << " ns" << std::endl;	// Wyświetlamy zmierzony czas na konsoli
 			}
-			else if (structure == "SortedDLL") {
-				SortedDLL dll;
-				for (int d_idx = 0; d_idx < data.size(); ++d_idx) dll.insertSDLL(d_idx + 1, data[d_idx]);	// Analogicznie wstawiamy dane do posortowanej listy dwukierunkowej
+		}
+		else if (structure == "SortedDLL") {
+			SortedDLL baseDLL;	// Tworzymy bazową listę dwukierunkową, do której wstawiamy dane, aby mieć je gotowe do testowania operacji na liście
+			for (int d_idx = 0; d_idx < data.size(); ++d_idx) baseDLL.insertSDLL(d_idx + 1, data[d_idx]);
+			for (int i = 0; i < 10; ++i) {
+				std::cout << "Testing " << structure << " with operation " << operation << " for N = " << N << " and seed = " << seed << " (Test " << i + 1 << "/10)" << std::endl;
+				SortedDLL dll = baseDLL;
 				long long t = measure_time([&]() {
 					if (operation == "insert") dll.insertSDLL(N+1, insert_prio[i]);
 					else if (operation == "extract-max") dll.extractMax();
 					else if (operation == "peek") dll.findMax();
-					else if (operation == "modify-key") dll.modifyKey(N, modify_prio[i]);
+					else if (operation == "modify-key") dll.modifyKey(modify_value[i], modify_prio[i]);
 					else if (operation == "return-size") dll.getSize();
 					});
 				times[i] = t;
+				std::cout << "Time: " << times[i] << " ns" << std::endl;	// Wyświetlamy zmierzony czas na konsoli
 			}
-			std::cout << "Time: " << times[i] << " ns" << std::endl;	// Wyświetlamy zmierzony czas na konsoli
 		}
-
-
 		out << structure << ";" << operation << ";" << N << ";" << seed;	// Zapisujemy wyniki do pliku CSV
 		for (int i = 0; i < 10; ++i) out << ";" << times[i];
 		out << "\n";

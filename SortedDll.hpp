@@ -21,6 +21,7 @@ private:
 public:
     SortedDLL();
     ~SortedDLL();
+    SortedDLL(const SortedDLL& other);
 
     void insertSDLL(int value, int priority);
     int findMax() const;
