@@ -134,6 +134,7 @@
     <ClCompile Include="Tester.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DynamicArray.hpp" />
     <ClInclude Include="Heap.hpp" />
     <ClInclude Include="menu.hpp" />
     <ClInclude Include="SortedDll.hpp" />

@@ -10,7 +10,7 @@ bool Heap::isLess(const Node& a, const Node& b) {	// Porównuje dwa elementy na 
 
 void Heap::heapifyUp(int i) {	// Przesuwa element w górę kopca, aby zachować właściwość kopca
 	while (i > 0 && isLess(heap[parent(i)], heap[i])) {	// Dopóki element nie jest korzeniem i jego priorytet jest większy niż priorytet rodzica
-		std::swap(heap[i], heap[parent(i)]);	// Jeśli priorytet jest większy, zamienia je miejscami
+		heap.swap(i, parent(i));	// Jeśli priorytet jest większy, zamienia je miejscami
 		i = parent(i);	// Przechodzi do indeksu rodzica
 	}
 }
@@ -19,47 +19,48 @@ void Heap::heapifyDown(int i) {	// Przesuwa element w dół kopca, aby zachować
 	int largest = i;
 	int left = leftChild(i);
 	int right = rightChild(i);
-	if (left < heap.size() && isLess(heap[largest], heap[left])) {
+	if (left < heapSize && isLess(heap[largest], heap[left])) {
 		largest = left;	// Jeśli lewe dziecko ma większy priorytet, aktualizuje największy indeks
 	}
-	if (right < heap.size() && isLess(heap[largest], heap[right])) {
+	if (right < heapSize && isLess(heap[largest], heap[right])) {
 		largest = right;	// Jeśli prawe dziecko ma większy priorytet, aktualizuje największy indeks
 	}
 	if (largest != i) {
-		std::swap(heap[i], heap[largest]);	// Zamienia miejscami element z największym priorytetem
+		heap.swap(i, largest);	// Jeśli największy indeks nie jest równy i, zamienia element z największym dzieckiem
 		heapifyDown(largest);	// Rekurencyjnie wywołuje heapifyDown dla nowego indeksu
 	}
 }
 
 void Heap::printHeap() const {	// Pomocnicza funkcja do debugowania, wyświetla zawartość kopca
 	std::cout << "Heap contents:\n";
-	for (const auto& node : heap) {
+	for (int i = 0; i < heapSize; i++) {
+		const auto& node = heap[i];
 		std::cout << "Value: " << node.value << ", Priority: " << node.priority << ", Insertion ID: " << node.insertion_id << "\n";
 	}
 }
 
 void Heap::insert(const int value, int priority) {	// Wstawia nowy element do kopca
-	heap.push_back({ value, priority, counter++ });	//	Dodaje nowy element do końca wektora, przypisując mu wartość, priorytet i unikalny identyfikator wstawienia
-	heapifyUp(heap.size() - 1);	// Przesuwa nowy element w górę, aby zachować właściwość kopca
+	heap.pushBack({ value, priority, counter++ });	// Dodaje nowy element do kopca, przypisując mu wartość, priorytet i unikalny identyfikator wstawienia
+	heapSize++;	// Zwiększa rozmiar kopca
+	heapifyUp(heapSize - 1);	// Przesuwa nowy element w górę, aby zachować właściwość kopca
 }
 
 int Heap::extract_max() {	// Usuwa element o najwyższym priorytecie z kopca
-	if (heap.empty()) {
+	if (heapSize == 0) {
 		throw std::runtime_error("Heap is empty");	// Rzuca wyjątek, jeśli kopiec jest pusty
 	}
 
 	int max_value = heap[0].value;	// Zapisuje wartość elementu o najwyższym priorytecie (korzenia)
-	heap[0] = heap.back();	// Przenosi ostatni element na miejsce korzenia
-	heap.pop_back();	// Usuwa ostatni element
-	if (!heap.empty()) {
-		heapifyDown(0);	// Przesuwa element w dół, aby zachować właściwość kopca
-	}
+	heap[0] = heap[heapSize - 1];	// Przenosi ostatni element na miejsce korzenia
+	heap.popBack();	// Usuwa ostatni element
+	heapSize--;	// Zmniejsza rozmiar kopca
+	heapifyDown(0);	// Przesuwa element w dół, aby zachować właściwość kopca
 
 	return max_value;	// Zwraca wartość elementu o najwyższym priorytecie
 }
 
 const int& Heap::peek() const {
-	if (heap.empty()) {
+	if (heapSize == 0) {
 		throw std::runtime_error("Heap is empty");	// Rzuca wyjątek, jeśli kopiec jest pusty
 	}
 	return heap[0].value;	// Zwraca wartość elementu o najwyższym priorytecie (korzenia) bez usuwania go z kopca
@@ -67,7 +68,7 @@ const int& Heap::peek() const {
 
 void Heap::modify_key(int value, int newPriority) {	// Zmienia priorytet elementu w kopcu
 	int index = -1;
-	for (int i = 0; i < heap.size(); i++) {
+	for (int i = 0; i < heapSize; i++) {
 		if (heap[i].value == value) {	// Szuka elementu o podanej wartości
 			index = i;
 			break;
@@ -92,5 +93,5 @@ void Heap::modify_key(int value, int newPriority) {	// Zmienia priorytet element
 
 
 int Heap::return_size() const {
-	return heap.size();	// Zwraca rozmiar kopca
+	return heapSize;	// Zwraca rozmiar kopca
 }
