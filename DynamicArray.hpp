@@ -7,7 +7,7 @@ class DynamicArray {
 public:
 	DynamicArray(); //Konstruktor
 	~DynamicArray(); //Destruktor
-	DynamicArray(const DynamicArray& other);
+	DynamicArray(const DynamicArray& other);	//Konstruktor kopiujący
 
 	void pushFront(const T& value); //Dodaje element na początek tablicy
 	void pushBack(const T& value);	//Dodaje element na koniec tablicy
@@ -43,16 +43,15 @@ DynamicArray<T>::~DynamicArray() { // Destruktor zwalniający pamięć zajmowan�
 }
 
 template<typename T>
-DynamicArray<T>::DynamicArray(const DynamicArray<T>& other)
-	: size(other.size), capacity(other.capacity)
+DynamicArray<T>::DynamicArray(const DynamicArray<T>& other) : size(other.size), capacity(other.capacity)	// Konstruktor kopiujący, który tworzy nową tablicę o tej samej pojemności i kopiuje elementy z innej tablicy
 {
 	if (capacity == 0) {
 		data = nullptr;
 		return;
 	}
 
-	data = new T[capacity];
-	std::copy(other.data, other.data + size, data);
+	data = new T[capacity];	// Alokujemy nową tablicę o tej samej pojemności
+	std::copy(other.data, other.data + size, data);	// Kopiujemy elementy z innej tablicy do nowej tablicy
 }
 
 template<typename T>

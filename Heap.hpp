@@ -11,7 +11,7 @@ private:
 
 	DynamicArray<Node> heap;	// Dynamiczna tablica przechowująca elementy kopca
 	int heapSize;	// Aktualny rozmiar kopca
-	int counter = 0;
+	int counter = 0;	// Licznik wstawień, używany do przypisywania unikalnych identyfikatorów wstawienia
 
 	int parent(int index) const { return (index - 1) / 2; }		// Zwraca indeks rodzica dla danego indeksu
 	int leftChild(int index) const { return 2 * index + 1; }	// Zwraca indeks lewego dziecka dla danego indeksu

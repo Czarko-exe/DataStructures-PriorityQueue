@@ -22,14 +22,14 @@ SortedDLL::~SortedDLL() {   //destruktor
     size = 0;
 }
 
-SortedDLL::SortedDLL(const SortedDLL& other) {
+SortedDLL::SortedDLL(const SortedDLL& other) {  //konstruktor kopiujący, tworzy nową listę na podstawie innej listy
     head = tail = nullptr;
     size = 0;
 
-    DLLNode* cur = other.head;
+	DLLNode* cur = other.head;  //przechodzimy przez wszystkie node'y innej listy od jej heada
     while (cur != nullptr) {
-        insertSDLL(cur->value, cur->priority);
-        cur = cur->next;
+		insertSDLL(cur->value, cur->priority);  //wstawiamy je do naszej listy (insertSDLL zajmie się odpowiednim miejscem)
+		cur = cur->next;    //aż do końca
     }
 }
 

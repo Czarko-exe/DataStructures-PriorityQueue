@@ -51,21 +51,21 @@ void test_structure(std::string structure, int N, std::string operation) {
 		int seed = seeds[s_idx];
 		std::vector<int> data = generate_data(N, seed);	// Generujemy dane na podstawie ziarna
 		long long times[10] = {};
-		std::vector<int> insert_prio = generate_data(N, 9676);	// Generujemy 10 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
+		std::vector<int> insert_prio = generate_data(N, 9676);	//	Generujemy N losowych liczb, które posłużą do testowania różnych operacji (np. wstawiania z różnymi priorytetami)
 		std::vector<int> modify_value = generate_data(N / 3, 3245);	// Generujemy N/3 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
-		std::vector<int> modify_prio = generate_data(N, 2167);	// Generujemy 10 losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza)
+		std::vector<int> modify_prio = generate_data(N, 2167);	// Generujemy N losowych liczb, które posłużą do testowania różnych operacji (np. modyfikacji klucza z różnymi priorytetami)
 		if (structure == "Heap") {
 			Heap baseHeap;	// Tworzymy bazowy kopiec, do którego wstawiamy dane, aby mieć je gotowe do testowania operacji na kopcu
-			for (int d_idx = 0; d_idx < data.size(); ++d_idx) baseHeap.insert(d_idx + 1, data[d_idx]);
+			for (int d_idx = 0; d_idx < data.size(); ++d_idx) baseHeap.insert(d_idx + 1, data[d_idx]);	// Wstawiamy dane do kopca, używając indeksu jako wartości i danych jako priorytetu
 			for (int i = 0; i < 10; ++i) {
 				std::cout << "Testing " << structure << " with operation " << operation << " for N = " << N << " and seed = " << seed << " (Test " << i + 1 << "/10)" << std::endl;
-				Heap h = baseHeap;
+				Heap h = baseHeap;	// Tworzymy kopię bazowego kopca, aby mieć go w stanie początkowym do testowania operacji
 				long long t = measure_time([&]() {
-					if (operation == "insert") h.insert(N+1, insert_prio[i]);
-					else if (operation == "extract-max") h.extract_max();
-					else if (operation == "peek") h.peek();
-					else if (operation == "modify-key") h.modify_key(modify_value[i], modify_prio[i]);
-					else if (operation == "return-size") h.return_size();
+					if (operation == "insert") h.insert(N + 1, insert_prio[i]);	// Jeśli operacja to "insert", wstawiamy nowy element do kopca z wartością N+1 i priorytetem z tablicy insert_prio
+					else if (operation == "extract-max") h.extract_max();	// Jeśli operacja to "extract-max", usuwamy element o najwyższym priorytecie z kopca
+					else if (operation == "peek") h.peek();	// Jeśli operacja to "peek", zwracamy element o najwyższym priorytecie bez usuwania go z kopca
+					else if (operation == "modify-key") h.modify_key(modify_value[i], modify_prio[i]);	// Jeśli operacja to "modify-key", zmieniamy priorytet elementu o wartości modify_value[i] na modify_prio[i]
+					else if (operation == "return-size") h.return_size();	// Jeśli operacja to "return-size", zwracamy rozmiar kopca
 					});
 				times[i] = t;	// Zapisujemy zmierzony czas do tablicy
 				std::cout << "Time: " << times[i] << " ns" << std::endl;	// Wyświetlamy zmierzony czas na konsoli
@@ -73,16 +73,16 @@ void test_structure(std::string structure, int N, std::string operation) {
 		}
 		else if (structure == "SortedDLL") {
 			SortedDLL baseDLL;	// Tworzymy bazową listę dwukierunkową, do której wstawiamy dane, aby mieć je gotowe do testowania operacji na liście
-			for (int d_idx = 0; d_idx < data.size(); ++d_idx) baseDLL.insertSDLL(d_idx + 1, data[d_idx]);
+			for (int d_idx = 0; d_idx < data.size(); ++d_idx) baseDLL.insertSDLL(d_idx + 1, data[d_idx]);	// Wstawiamy dane do listy, używając indeksu jako wartości i danych jako priorytetu
 			for (int i = 0; i < 10; ++i) {
 				std::cout << "Testing " << structure << " with operation " << operation << " for N = " << N << " and seed = " << seed << " (Test " << i + 1 << "/10)" << std::endl;
-				SortedDLL dll = baseDLL;
+				SortedDLL dll = baseDLL;	// Tworzymy kopię bazowej listy, aby mieć ją w stanie początkowym do testowania operacji
 				long long t = measure_time([&]() {
-					if (operation == "insert") dll.insertSDLL(N+1, insert_prio[i]);
-					else if (operation == "extract-max") dll.extractMax();
-					else if (operation == "peek") dll.findMax();
-					else if (operation == "modify-key") dll.modifyKey(modify_value[i], modify_prio[i]);
-					else if (operation == "return-size") dll.getSize();
+					if (operation == "insert") dll.insertSDLL(N+1, insert_prio[i]);	// Jeśli operacja to "insert", wstawiamy nowy element do listy z wartością N+1 i priorytetem z tablicy insert_prio
+					else if (operation == "extract-max") dll.extractMax();	// Jeśli operacja to "extract-max", usuwamy element o najwyższym priorytecie z listy
+					else if (operation == "peek") dll.findMax();	// Jeśli operacja to "peek", zwracamy element o najwyższym priorytecie bez usuwania go z listy
+					else if (operation == "modify-key") dll.modifyKey(modify_value[i], modify_prio[i]);	// Jeśli operacja to "modify-key", zmieniamy priorytet elementu o wartości modify_value[i] na modify_prio[i]
+					else if (operation == "return-size") dll.getSize();	// Jeśli operacja to "return-size", zwracamy rozmiar listy
 					});
 				times[i] = t;
 				std::cout << "Time: " << times[i] << " ns" << std::endl;	// Wyświetlamy zmierzony czas na konsoli

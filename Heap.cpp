@@ -59,7 +59,7 @@ int Heap::extract_max() {	// Usuwa element o najwyższym priorytecie z kopca
 	return max_value;	// Zwraca wartość elementu o najwyższym priorytecie
 }
 
-const int& Heap::peek() const {
+const int& Heap::peek() const {	// Zwraca element o najwyższym priorytecie bez usuwania go z kopca
 	if (heapSize == 0) {
 		throw std::runtime_error("Heap is empty");	// Rzuca wyjątek, jeśli kopiec jest pusty
 	}
